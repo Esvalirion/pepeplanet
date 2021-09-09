@@ -1,0 +1,21 @@
+{
+  "name": "nodeplanet",
+  "version": "0.0.1",
+  "description": "Trackmania dedicated server controller",
+  "main": "startServer.js",
+  "type": "module",
+  "author": "esvalirion",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.15.5",
+    "chalk": "^4.1.2",
+    "gbxremote": "^0.2.1"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.15.4",
+    "@babel/preset-env": "^7.15.6",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2"
+  }
+}
