@@ -1,7 +1,7 @@
 const config = {
   // Trackmania server settings
   trackmania: {
-    // server port on localhost
+    // server port on localhost, prefer 5004
     port: 5555,
 
     // Authentication details for SuperAdmin

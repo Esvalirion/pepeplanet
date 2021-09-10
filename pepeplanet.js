@@ -41,6 +41,7 @@ const pepeplanet = {
 
       log.green('Authenticated ...');
       server.log('How it feels, pepegas, pepeplanet is here!');
+
       this.enableCallbacks(client);
     } catch {
       log.red('Authenticate failed');
