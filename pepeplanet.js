@@ -75,6 +75,8 @@ const pepeplanet = {
   },
 
   authenticate: async function (client) {
+    // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-callbacks
+    // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-methods
     await client.query('SetApiVersion', ['2019-03-02']);
     // const kek = await client.query('system.listMethods');
     // console.log(kek)
