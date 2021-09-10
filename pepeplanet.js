@@ -26,6 +26,9 @@ const pepeplanet = {
       log.green(runningMessage);
 
       this.client = client;
+
+      server.log('How it feels, pepegas, pepeplanet is here!');
+
       this.startCallbackListening();
     } catch {
       log.red('TriggerModeScriptEventArray failed');
@@ -51,8 +54,6 @@ const pepeplanet = {
       await client.query('Authenticate', [config.trackmania.login, config.trackmania.password]);
 
       log.green('Authenticated ...');
-      server.log('How it feels, pepegas, pepeplanet is here!');
-
       this.enableCallbacks(client);
     } catch {
       log.red('Authenticate failed');
