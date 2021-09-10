@@ -12,7 +12,7 @@ const pepeplanet = {
   client: null,
 
   startCallbackListening: async function() {
-    client.on('callback', function(method, params) {
+    this.client.on('callback', function(method, params) {
       const callbackFn = _.get(methodsList, method);
       callbackFn(params, client);
     });
