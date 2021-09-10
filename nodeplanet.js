@@ -12,7 +12,7 @@ const nodeplanet = {
     });
 
     client.on('connect', () => {
-      log.red('Could not connect to server');
+      log.green('Connected!');
     });
   },
 };
