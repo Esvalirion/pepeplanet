@@ -32,7 +32,7 @@ const PlayerConnect = async ([ login, isSpectator ], client) => {
     `)
 
     if (config.admins.includes(Login)) {
-      server.log(`Wooow, pepeadmin ${NickName} here`);
+      server.log(`Wooow, admiral pepega ${NickName} here!`);
     } else {
       server.log(`Another pepega ${NickName} with us`);
     }

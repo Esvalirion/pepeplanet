@@ -12,8 +12,21 @@ const pepeplanet = {
   client: null,
 
   startCallbackListening: async function() {
-    this.client.on('callback', function(method, params) {
+    this.client.on('callback', (method, params) => {
       const callbackFn = _.get(methodsList, method);
+
+      if (!callbackFn) {
+        log.red('Unregistered method detected, captain!');
+        log.white(method);
+        log.white(JSON.stringify(params));
+        log.white('----------');
+        return;
+      }
+
+      log.green('Registered method, captain!');
+      log.white(method);
+      log.white(JSON.stringify(params));
+      log.white('----------');
       callbackFn(params, this.client);
     });
   },
@@ -21,51 +34,55 @@ const pepeplanet = {
   triggerModeScript: async function(client) {
     try {
       await client.query('TriggerModeScriptEventArray', ['XmlRpc.EnableCallbacks', ['true']]);
-
-      log.green('Script callbacks enabled ...');
-      log.green(runningMessage);
-
-      this.client = client;
-
-      server.log('How it feels, pepegas, pepeplanet is here!');
-
-      this.startCallbackListening();
-    } catch {
+    } catch (err) {
       log.red('TriggerModeScriptEventArray failed');
+      log.red(err);
       process.exit(1);
     }
+
+    log.green('Script callbacks enabled ...');
+    log.green(runningMessage);
+
+    this.client = client;
+
+    server.log('How it feels, pepegas, pepeplanet is here!');
+
+    this.startCallbackListening();
   },
 
   enableCallbacks: async function(client) {
     try  {
-      await client.query('EnableCallbacks', [true])
-
-      log.green('Callbacks enabled ...');
-      this.triggerModeScript(client);
-    } catch {
+      await client.query('EnableCallbacks', [true]);
+    } catch (err) {
       log.red('EnableCallbacks failed');
+      log.red(err);
       process.exit(1);
     }
 
+    log.green('Callbacks enabled ...');
+    this.triggerModeScript(client);
   },
 
   authenticate: async function(client) {
     try {
       await client.query('Authenticate', [config.trackmania.login, config.trackmania.password]);
-
-      log.green('Authenticated ...');
-      this.enableCallbacks(client);
-    } catch {
+    } catch (err) {
+      exception = true;
       log.red('Authenticate failed');
+      log.red(err);
       process.exit(1);
     }
+
+    log.green('Authenticated ...');
+    this.enableCallbacks(client);
   },
 
   connect: function() {
-    const client = gbxremote.createClient(config.trackmania.port);
+    const client = gbxremote.createClient(config.trackmania.port, config.trackmania.host);
 
-    client.on('error', () => {
+    client.on('error', (err) => {
       log.red('Could not connect to server');
+      log.red(err);
       process.exit(1);
     });
 
