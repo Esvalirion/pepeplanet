@@ -9,7 +9,7 @@ const config = {
     password: 'SuperAdmin',
 
     // The login of the server at the master server, look it up on the https://players.trackmania.com/
-    server_login: 'login',
+    serverLogin: 'login',
   },
 
   // MySQL database settings
@@ -18,7 +18,7 @@ const config = {
     port: 3306,
     user: 'root',
     password: 'password',
-    dbname: 'nodecontrol',
+    dbname: 'dbname',
   },
 
   // Administrators logins from https://trackmania.io/#/player

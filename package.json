@@ -1,11 +1,13 @@
 {
-  "name": "nodeplanet",
+  "name": "pepeplanet",
   "version": "0.0.1",
   "description": "Trackmania dedicated server controller",
-  "main": "startServer.js",
   "type": "module",
   "author": "esvalirion",
   "license": "MIT",
+  "scripts": {
+    "start": "node pepeplanet.js"
+  },
   "dependencies": {
     "@babel/core": "^7.15.5",
     "chalk": "^4.1.2",
