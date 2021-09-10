@@ -1,5 +1,5 @@
 import gbxremote from 'gbxremote';
-import _ from 'lodash/core.js';
+import _ from 'lodash';
 import config from './config.js';
 
 import log from './utils/log.js';
