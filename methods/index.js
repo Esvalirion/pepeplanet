@@ -16,29 +16,23 @@ import VoteUpdated from './VoteUpdated.js';
 import WayPoint from './WayPoint.js';
 
 export default {
-  // https://server.xaseco.org/callbacks2.php
-  // callback calls look like 'ManiaPlanet.PlayerConnect'
-  ManiaPlanet: {
-    PlayerConnect,
-    PlayerDisconnect,
-    PlayerChat,
-    BeginMap,
-    BeginMatch,
-    EndMap,
-    EndMatch,
-    MapListModified,
-    PlayerAlliesChanged,
-    PlayerInfoChanged,
-    PlayerManialinkPageAnswer,
-    StatusChanged,
-    TunnelDataReceived,
-    VoteUpdated,
-  },
-  TrackMania: {
-    // PlayerIncoherence,
-    event: {
-      // 'Trackmania.Event.WayPoint'
-      WayPoint,
-    },
+  PlayerConnect,
+  PlayerDisconnect,
+  PlayerChat,
+  BeginMap,
+  BeginMatch,
+  EndMap,
+  EndMatch,
+  MapListModified,
+  PlayerAlliesChanged,
+  PlayerInfoChanged,
+  PlayerManialinkPageAnswer,
+  StatusChanged,
+  TunnelDataReceived,
+  VoteUpdated,
+  WayPoint,
+  event: {
+    // 'Trackmania.Event.WayPoint'
+    WayPoint,
   },
 };

@@ -14,9 +14,9 @@ const getDateString = () => {
   }
 }
 
-const PlayerConnect = async ([ login, isSpectator ], client) => {
+const PlayerConnect = async ([login, isSpectator], client) => {
   try {
-    const {  Login, NickName, IPAddress } = await client.query('GetDetailedPlayerInfo', [login]);
+    const { Login, NickName, IPAddress } = await client.query('GetDetailedPlayerInfo', [login]);
 
     const { dateString, timeString } = getDateString();
 
@@ -32,12 +32,13 @@ const PlayerConnect = async ([ login, isSpectator ], client) => {
     `)
 
     if (config.admins.includes(Login)) {
-      server.log(`Wooow, admiral pepega ${NickName} here!`);
+      server.log(`$oWooow, admiral pepega 0f0${NickName}$g here!`);
     } else {
-      server.log(`Another pepega ${NickName} with us`);
+      server.log(`Another pepega $o${NickName}$g with us`);
     }
-  } catch {
+  } catch (err) {
     log.red('Something went wrong in PlayerConnect');
+    log.red(err);
   }
 };
 

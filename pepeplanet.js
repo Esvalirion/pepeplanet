@@ -11,9 +11,19 @@ import methodsList from './methods/index.js';
 const pepeplanet = {
   client: null,
 
-  startCallbackListening: async function() {
+  startCallbackListening: async function () {
     this.client.on('callback', (method, params) => {
-      const callbackFn = _.get(methodsList, method);
+      let callbackFn = _.get(methodsList, method.split('.')[1]);
+      let attrs = params;
+
+      if (method.split('.')[1] === 'ModeScriptCallbackArray') {
+        if (params[0].split('.')[1] === 'Event')
+          callbackFn = _.get(methodsList, params[0].split('.')[2])
+        else
+          callbackFn = _.get(methodsList, params[0].split('.')[1])
+
+        attrs = JSON.parse(params[1][0]);
+      }
 
       if (!callbackFn) {
         log.red('Unregistered method detected, captain!');
@@ -27,11 +37,12 @@ const pepeplanet = {
       log.white(method);
       log.white(JSON.stringify(params));
       log.white('----------');
-      callbackFn(params, this.client);
+
+      callbackFn(attrs, this.client);
     });
   },
 
-  triggerModeScript: async function(client) {
+  triggerModeScript: async function (client) {
     try {
       await client.query('TriggerModeScriptEventArray', ['XmlRpc.EnableCallbacks', ['true']]);
     } catch (err) {
@@ -50,8 +61,8 @@ const pepeplanet = {
     this.startCallbackListening();
   },
 
-  enableCallbacks: async function(client) {
-    try  {
+  enableCallbacks: async function (client) {
+    try {
       await client.query('EnableCallbacks', [true]);
     } catch (err) {
       log.red('EnableCallbacks failed');
@@ -63,7 +74,11 @@ const pepeplanet = {
     this.triggerModeScript(client);
   },
 
-  authenticate: async function(client) {
+  authenticate: async function (client) {
+    await client.query('SetApiVersion', ['2019-03-02']);
+    // const kek = await client.query('system.listMethods');
+    // console.log(kek)
+
     try {
       await client.query('Authenticate', [config.trackmania.login, config.trackmania.password]);
     } catch (err) {
@@ -77,7 +92,7 @@ const pepeplanet = {
     this.enableCallbacks(client);
   },
 
-  connect: function() {
+  connect: function () {
     const client = gbxremote.createClient(config.trackmania.port, config.trackmania.host);
 
     client.on('error', (err) => {
