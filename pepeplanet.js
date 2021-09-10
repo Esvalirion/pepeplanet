@@ -1,21 +1,32 @@
 import gbxremote from 'gbxremote';
+import _ from 'lodash/core.js';
 import config from './config.js';
 
 import log from './utils/log.js';
 import server from './utils/server.js';
 import runningMessage from './utils/runningMessage.js';
 
+import methodsList from './methods/index.js';
+
 const pepeplanet = {
   client: null,
+
+  startCallbackListening: async function() {
+    client.on('callback', function(method, params) {
+      const callbackFn = _.get(methodsList, method);
+      callbackFn(params, client);
+    });
+  },
 
   triggerModeScript: async function(client) {
     try {
       await client.query('TriggerModeScriptEventArray', ['XmlRpc.EnableCallbacks', ['true']]);
 
       log.green('Script callbacks enabled ...');
-      this.client = client;
-
       log.green(runningMessage);
+
+      this.client = client;
+      this.startCallbackListening();
     } catch {
       log.red('TriggerModeScriptEventArray failed');
       process.exit(1);
