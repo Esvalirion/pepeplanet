@@ -1,9 +1,9 @@
-import pepeplanet from "../pepeplanet.js";
+import pepeplanet from '../pepeplanet.js';
 
 const server = {
-  log: message => {
+  log: (message) => {
     pepeplanet.client.query('ChatSendServerMessage', [message]);
-  }
-}
+  },
+};
 
 export default server;

@@ -11,16 +11,17 @@ import methodsList from './methods/index.js';
 const pepeplanet = {
   client: null,
 
-  startCallbackListening: async function () {
+  startCallbackListening: async function startCallbackListening() {
     this.client.on('callback', (method, params) => {
       let callbackFn = _.get(methodsList, method.split('.')[1]);
       let attrs = params;
 
       if (method.split('.')[1] === 'ModeScriptCallbackArray') {
-        if (params[0].split('.')[1] === 'Event')
-          callbackFn = _.get(methodsList, params[0].split('.')[2])
-        else
-          callbackFn = _.get(methodsList, params[0].split('.')[1])
+        if (params[0].split('.')[1] === 'Event') {
+          callbackFn = _.get(methodsList, params[0].split('.')[2]);
+        } else {
+          callbackFn = _.get(methodsList, params[0].split('.')[1]);
+        }
 
         attrs = JSON.parse(params[1][0]);
       }
@@ -42,7 +43,7 @@ const pepeplanet = {
     });
   },
 
-  triggerModeScript: async function (client) {
+  triggerModeScript: async function triggerModeScript(client) {
     try {
       await client.query('TriggerModeScriptEventArray', ['XmlRpc.EnableCallbacks', ['true']]);
     } catch (err) {
@@ -61,7 +62,7 @@ const pepeplanet = {
     this.startCallbackListening();
   },
 
-  enableCallbacks: async function (client) {
+  enableCallbacks: async function enableCallbacks(client) {
     try {
       await client.query('EnableCallbacks', [true]);
     } catch (err) {
@@ -74,17 +75,14 @@ const pepeplanet = {
     this.triggerModeScript(client);
   },
 
-  authenticate: async function (client) {
+  authenticate: async function authenticate(client) {
     // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-callbacks
     // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-methods
     await client.query('SetApiVersion', ['2019-03-02']);
-    // const kek = await client.query('system.listMethods');
-    // console.log(kek)
 
     try {
       await client.query('Authenticate', [config.trackmania.login, config.trackmania.password]);
     } catch (err) {
-      exception = true;
       log.red('Authenticate failed');
       log.red(err);
       process.exit(1);
@@ -94,7 +92,7 @@ const pepeplanet = {
     this.enableCallbacks(client);
   },
 
-  connect: function () {
+  connect: function connect() {
     const client = gbxremote.createClient(config.trackmania.port, config.trackmania.host);
 
     client.on('error', (err) => {

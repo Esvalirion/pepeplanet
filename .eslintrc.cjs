@@ -9,6 +9,7 @@ module.exports = {
   },
   parser: '@babel/eslint-parser',
   rules: {
-    'import/extensions': ['always'],
+    'import/extensions': 0,
+    'import/no-cycle': 0,
   },
 };

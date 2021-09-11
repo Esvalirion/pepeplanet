@@ -2,6 +2,8 @@ import log from '../utils/log.js';
 import server from '../utils/server.js';
 import config from '../config.js';
 
+import renderClock from '../UI/clock.js';
+
 const getDateString = () => {
   const timeNow = new Date();
 
@@ -11,8 +13,8 @@ const getDateString = () => {
   return {
     dateString,
     timeString,
-  }
-}
+  };
+};
 
 const PlayerConnect = async ([login, isSpectator], client) => {
   try {
@@ -29,13 +31,15 @@ const PlayerConnect = async ([login, isSpectator], client) => {
 
       Player connect${isSpectator ? ' as spectator' : ''}
       ----------
-    `)
+    `);
 
     if (config.admins.includes(Login)) {
       server.log(`$oWooow, admiral pepega 0f0${NickName}$g here!`);
     } else {
       server.log(`Another pepega $o${NickName}$g with us`);
     }
+
+    renderClock(Login, client);
   } catch (err) {
     log.red('Something went wrong in PlayerConnect');
     log.red(err);
