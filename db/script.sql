@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `pepeplanet`.`maps` (
   `file` TEXT NOT NULL COMMENT 'Map path relative to UserData/Maps/',
   `author` TEXT NOT NULL COMMENT 'Map author\'s login',
   `medals` JSON NOT NULL COMMENT 'Map medals object',
-  `isMultilap` TINYINT(1) NOT NULL COMMENT 'Whether it\'s a multilap map',
+  `isMultilap` BOOLEAN NOT NULL COMMENT 'Whether it\'s a multilap map',
   `nbLaps` INT NOT NULL COMMENT 'Number of Laps',
   `nbCheckpoints` INT NOT NULL COMMENT 'Number of Checkpoints',
   `type` TEXT NOT NULL COMMENT 'Map type',
@@ -64,6 +64,27 @@ CREATE TABLE IF NOT EXISTS `pepeplanet`.`records` (
     REFERENCES `pepeplanet`.`maps` (`uid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `pepeplanet`.`checkpoints` (
+  `cpNumber` INT NOT NULL COMMENT 'Checkpoint number',
+  `time` INT NOT NULL COMMENT 'Record time on checkpoint',
+  `login` VARCHAR(22) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Player login',
+  `uid` VARCHAR(27) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Map unique ID',
+  PRIMARY KEY (`login`, `uid`),
+  INDEX `checkpointsLogin` (`uid` ASC) VISIBLE,
+  CONSTRAINT `checkpointsLogin`
+    FOREIGN KEY (`login`)
+    REFERENCES `pepeplanet`.`players` (`login`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `checkpointsUid`
+    FOREIGN KEY (`uid`)
+    REFERENCES `pepeplanet`.`maps` (`uid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
