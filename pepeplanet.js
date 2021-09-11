@@ -8,8 +8,20 @@ import runningMessage from './utils/runningMessage.js';
 
 import methodsList from './methods/index.js';
 
+import genereateClock from './UI/clock/clock.js';
+
 const pepeplanet = {
   client: null,
+
+  renderNewUI: async function () {
+    const playerList = await this.client.query('GetPlayerList', [100, 0]);
+
+    playerList.forEach(player => {
+      if (player.playerID === 0) return;
+
+      genereateClock(player.Login, this.client);
+    });
+  },
 
   startCallbackListening: async function startCallbackListening() {
     this.client.on('callback', (method, params) => {
@@ -27,17 +39,17 @@ const pepeplanet = {
       }
 
       if (!callbackFn) {
-        log.red('Unregistered method detected, captain!');
-        log.white(method);
-        log.white(JSON.stringify(params));
-        log.white('----------');
+        // log.red('Unregistered method detected, captain!');
+        // log.white(method);
+        // log.white(JSON.stringify(params));
+        // log.white('----------');
         return;
       }
 
-      log.green('Registered method, captain!');
-      log.white(method);
-      log.white(JSON.stringify(params));
-      log.white('----------');
+      // log.green('Registered method, captain!');
+      // log.white(method);
+      // log.white(JSON.stringify(params));
+      // log.white('----------');
 
       callbackFn(attrs, this.client);
     });
@@ -57,9 +69,10 @@ const pepeplanet = {
 
     this.client = client;
 
-    server.log('How it feels, pepegas, pepeplanet is here!');
+    server.log('$0f0How it feels, pepegas, pepeplanet is here!');
 
     this.startCallbackListening();
+    this.renderNewUI();
   },
 
   enableCallbacks: async function enableCallbacks(client) {

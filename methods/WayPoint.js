@@ -28,7 +28,7 @@ const WayPoint = async (params, client) => {
 
     if (!params.isendlap) return;
 
-    server.log(`$o$0f0${NickName}$g finishes in $o$0f0${timeString}`);
+    server.log(`pepega $0f0${NickName}$g finishes in $0f0${timeString}`);
   } catch (err) {
     log.red('Something went wrong in PlayerConnect');
     log.red(err);

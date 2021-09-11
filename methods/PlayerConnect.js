@@ -2,7 +2,7 @@ import log from '../utils/log.js';
 import server from '../utils/server.js';
 import config from '../config.js';
 
-import renderClock from '../UI/clock.js';
+import genereateClock from '../UI/clock/clock.js';
 
 const getDateString = () => {
   const timeNow = new Date();
@@ -34,12 +34,12 @@ const PlayerConnect = async ([login, isSpectator], client) => {
     `);
 
     if (config.admins.includes(Login)) {
-      server.log(`$oWooow, admiral pepega 0f0${NickName}$g here!`);
+      server.log(`$sWooow, admiral pepega $0f0${NickName}$g here!`);
     } else {
-      server.log(`Another pepega $o${NickName}$g with us`);
+      server.log(`$sAnother pepega ${NickName}$g with us`);
     }
 
-    renderClock(Login, client);
+    genereateClock(Login, client);
   } catch (err) {
     log.red('Something went wrong in PlayerConnect');
     log.red(err);
