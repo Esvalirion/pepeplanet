@@ -16,9 +16,12 @@ const config = {
   mySql: {
     host: 'localhost',
     port: 3306,
-    user: 'root',
+    user: 'client',
     password: 'password',
-    dbname: 'dbname',
+    database: 'dbname',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
   },
 
   // Administrators logins from https://trackmania.io/#/player
