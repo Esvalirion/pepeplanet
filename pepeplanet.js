@@ -8,22 +8,22 @@ import runningMessage from './utils/runningMessage.js';
 
 import methodsList from './methods/index.js';
 
-import genereateClock from './UI/clock/clock.js';
+import generateUI from './UI/generateUI.js';
 
 const pepeplanet = {
   client: null,
 
-  renderNewUI: async function () {
+  async renderNewUI() {
     const playerList = await this.client.query('GetPlayerList', [100, 0]);
 
-    playerList.forEach(player => {
+    playerList.forEach((player) => {
       if (player.playerID === 0) return;
 
-      genereateClock(player.Login, this.client);
+      generateUI(player.Login, this.client);
     });
   },
 
-  startCallbackListening: async function startCallbackListening() {
+  async startCallbackListening() {
     this.client.on('callback', (method, params) => {
       let callbackFn = _.get(methodsList, method.split('.')[1]);
       let attrs = params;
@@ -55,7 +55,7 @@ const pepeplanet = {
     });
   },
 
-  triggerModeScript: async function triggerModeScript(client) {
+  async triggerModeScript(client) {
     try {
       await client.query('TriggerModeScriptEventArray', ['XmlRpc.EnableCallbacks', ['true']]);
     } catch (err) {
@@ -75,7 +75,7 @@ const pepeplanet = {
     this.renderNewUI();
   },
 
-  enableCallbacks: async function enableCallbacks(client) {
+  async enableCallbacks(client) {
     try {
       await client.query('EnableCallbacks', [true]);
     } catch (err) {
@@ -88,7 +88,7 @@ const pepeplanet = {
     this.triggerModeScript(client);
   },
 
-  authenticate: async function authenticate(client) {
+  async authenticate(client) {
     // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-callbacks
     // https://doc.maniaplanet.com/dedicated-server/references/xml-rpc-methods
     await client.query('SetApiVersion', ['2019-03-02']);
@@ -105,7 +105,7 @@ const pepeplanet = {
     this.enableCallbacks(client);
   },
 
-  connect: function connect() {
+  connect() {
     const client = gbxremote.createClient(config.trackmania.port, config.trackmania.host);
 
     client.on('error', (err) => {

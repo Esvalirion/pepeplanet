@@ -2,7 +2,7 @@ import log from '../utils/log.js';
 import server from '../utils/server.js';
 import config from '../config.js';
 
-import genereateClock from '../UI/clock/clock.js';
+import generateUI from '../UI/generateUI.js';
 
 const getDateString = () => {
   const timeNow = new Date();
@@ -39,7 +39,7 @@ const PlayerConnect = async ([login, isSpectator], client) => {
       server.log(`$sAnother pepega ${NickName}$g with us`);
     }
 
-    genereateClock(Login, client);
+    generateUI(Login, client);
   } catch (err) {
     log.red('Something went wrong in PlayerConnect');
     log.red(err);
