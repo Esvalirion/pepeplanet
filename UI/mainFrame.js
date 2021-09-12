@@ -4,32 +4,48 @@ const tmpl = `
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <manialink version="3">
   {{#childs}}
-    {{.}}
+    {{{template}}}
   {{/childs}}
   <script><!--
-  declare clockWidget <=> (Page.MainFrame.GetFirstChild("clockWidget") as CMlFrame);
+    {{#childs}}
+      {{{declarations}}}
+    {{/childs}}
 
-  declare Boolean isClockWidgetVisible = True;
+    {{#childs}}
+      declare {{attrs.frameName}}Frame <=> (Page.GetFirstChild("{{attrs.frameName}}") as CMlFrame);
 
-  while (True) {
-    yield;
+      declare Boolean is{{attrs.frameName}}Visible = True;
+    {{/childs}}
 
-    foreach(event in PendingEvents) {
-      if(event.Type == CMlScriptEvent::Type::MouseClick && event.Control.HasClass("triggerClockWidget")) {
-        if (isClockWidgetVisible) {
-          AnimMgr.Add(mainFrame, "<frame pos='25 0' />", 400, CAnimManager::EAnimManagerEasing::ExpIn);
-          isClockWidgetVisible = False;
-        } else {
-          AnimMgr.Add(mainFrame, "<frame pos='0 0' />", 400, CAnimManager::EAnimManagerEasing::ExpOut);
-          isClockWidgetVisible = True;
+    while (True) {
+      yield;
+
+      {{#childs}}
+        {{{loop}}}
+      {{/childs}}
+
+      foreach(event in PendingEvents) {
+        if(event.Type == CMlScriptEvent::Type::MouseClick) {
+          {{#childs}}
+            if (event.Control.HasClass("trigger{{attrs.frameName}}")) {
+              if (is{{attrs.frameName}}Visible) {
+                AnimMgr.Add({{attrs.frameName}}Frame, "<frame pos='{{attrs.hiddenPos}}' />", 200, CAnimManager::EAnimManagerEasing::ExpIn);
+                is{{attrs.frameName}}Visible = False;
+              } else {
+                AnimMgr.Add({{attrs.frameName}}Frame, "<frame pos='0 0' />", 200, CAnimManager::EAnimManagerEasing::ExpOut);
+                is{{attrs.frameName}}Visible = True;
+              }
+            }
+          {{/childs}}
         }
       }
     }
-  }
   --></script>
 </manialink>
 `;
 
-const mainFrame = (childs) => Mustache.render(tmpl, childs);
+const mainFrame = (templates) => {
+  return Mustache.render(tmpl, templates);
+}
 
 export default mainFrame;
