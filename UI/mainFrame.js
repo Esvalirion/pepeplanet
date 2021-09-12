@@ -7,6 +7,8 @@ const tmpl = `
     {{{template}}}
   {{/childs}}
   <script><!--
+    #Include "TextLib" as TextLib
+
     {{#childs}}
       {{{declarations}}}
     {{/childs}}
@@ -15,6 +17,8 @@ const tmpl = `
       declare {{attrs.frameName}}Frame <=> (Page.GetFirstChild("{{attrs.frameName}}") as CMlFrame);
 
       declare Boolean is{{attrs.frameName}}Visible = True;
+
+      declare CMlLabel {{attrs.frameName}}arrow <=> (Page.GetFirstChild("{{attrs.frameName}}arrow") as CMlLabel);
     {{/childs}}
 
     while (True) {
@@ -31,9 +35,11 @@ const tmpl = `
               if (is{{attrs.frameName}}Visible) {
                 AnimMgr.Add({{attrs.frameName}}Frame, "<frame pos='{{attrs.hiddenPos}}' />", 200, CAnimManager::EAnimManagerEasing::ExpIn);
                 is{{attrs.frameName}}Visible = False;
+                {{attrs.frameName}}arrow.Value = "🕑";
               } else {
                 AnimMgr.Add({{attrs.frameName}}Frame, "<frame pos='0 0' />", 200, CAnimManager::EAnimManagerEasing::ExpOut);
                 is{{attrs.frameName}}Visible = True;
+                {{attrs.frameName}}arrow.Value = "❌";
               }
             }
           {{/childs}}
