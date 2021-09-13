@@ -32,12 +32,12 @@ GRANT ALL PRIVILEGES ON pepeplanet.* TO 'pepega'@'localhost';
 
 Run script from root folder of this project.
 (Dont forget to enter 'your password' when mysql ask for it)
+
 ```sh
 mysql -u pepega -p < ./db/script.sql
 ```
 
-
-### Installation server
+### Server installation
 
 Install dependencies
 
