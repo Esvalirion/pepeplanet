@@ -27,16 +27,17 @@ const getPlayer = async (login) => {
  * @param login {string} Player object
  * @param name {string} Player object
  */
-const upsertPlayer = async (login, name) => {
+const upsertPlayer = async (login, name, ip) => {
   const sql = `
-            INSERT INTO players (login, name)
-            VALUES(?, ?)
+            INSERT INTO players (login, name, ip)
+            VALUES(?, ?, ?)
             ON DUPLICATE KEY UPDATE
                 login = ?,
-                name = ?
+                name = ?,
+                ip = ?
             `;
 
-  const preparedSql = mysql.format(sql, [login, name, login, name]);
+  const preparedSql = mysql.format(sql, [login, name, ip, login, name, ip]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in upsertPlayer, captain!');
