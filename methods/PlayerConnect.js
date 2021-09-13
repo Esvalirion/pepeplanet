@@ -1,14 +1,18 @@
+import fns from 'date-fns';
+
 import log from '../utils/log.js';
 import server from '../utils/server.js';
 import config from '../config.js';
 
 import generateUI from '../UI/generateUI.js';
 
+import playerdb from '../db/players.js';
+
 const getDateString = () => {
   const timeNow = new Date();
 
-  const dateString = `${timeNow.getDate()}.${timeNow.getMonth()}.${timeNow.getFullYear()}`;
-  const timeString = `${timeNow.getHours()}:${timeNow.getMinutes()}:${timeNow.getSeconds()}`;
+  const dateString = fns.format(timeNow, 'dd.MM.yyyy');
+  const timeString = fns.format(timeNow, 'mm:ss:SSS');
 
   return {
     dateString,
@@ -32,6 +36,10 @@ const PlayerConnect = async ([login, isSpectator], client) => {
       Player connect${isSpectator ? ' as spectator' : ''}
       ----------
     `);
+
+    if (!playerdb.existPlayer(Login)) {
+      await playerdb.upsertPlayer(Login, NickName);
+    }
 
     if (config.admins.includes(Login)) {
       server.log(`$sWooow, admiral pepega $0f0${NickName}$g here!`);

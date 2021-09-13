@@ -5,10 +5,10 @@ import config from './config.js';
 import log from './utils/log.js';
 import server from './utils/server.js';
 import runningMessage from './utils/runningMessage.js';
-
 import methodsList from './methods/index.js';
-
 import generateUI from './UI/generateUI.js';
+
+import playerdb from './db/players.js';
 
 const pepeplanet = {
   client: null,
@@ -16,10 +16,18 @@ const pepeplanet = {
   async renderNewUI() {
     const playerList = await this.client.query('GetPlayerList', [100, 0]);
 
-    playerList.forEach((player) => {
-      if (player.playerID === 0) return;
+    playerList.forEach(async ({
+      playerID,
+      Login,
+      NickName,
+    }) => {
+      if (playerID === 0) return;
 
-      generateUI(player.Login, this.client);
+      if (!playerdb.existPlayer(Login)) {
+        await playerdb.upsertPlayer(Login, NickName);
+      }
+
+      generateUI(Login, this.client);
     });
   },
 
