@@ -37,8 +37,10 @@ const PlayerConnect = async ([login, isSpectator], client) => {
       ----------
     `);
 
-    if (!playerdb.existPlayer(Login)) {
-      await playerdb.upsertPlayer(Login, NickName);
+    const isPlayerExist = await playerdb.existPlayer(Login);
+
+    if (!isPlayerExist) {
+      await playerdb.upsertPlayer(Login, NickName, IPAddress);
     }
 
     if (config.admins.includes(Login)) {

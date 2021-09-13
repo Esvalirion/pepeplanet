@@ -66,7 +66,7 @@ const existPlayer = async (login) => {
     process.exit(1);
   });
 
-  return Boolean(res.length);
+  return Boolean(res[0].length);
 };
 
 /**

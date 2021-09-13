@@ -40,15 +40,16 @@ const mysqlCheckAndDeployTables = async () => {
     if (query.length > 1) {
       // create table if missing
       promise.then(
-        () => pool.query(query).then(() => log.white(`Query ${query} executed correctly`))
-          .catch((e) => {
-            log.red(`MySQL database error: ${JSON.stringify(e, null, 2)}`);
-            process.exit(1);
-          }),
+        () => pool.query(query).catch((e) => {
+          log.red(`MySQL database error: ${JSON.stringify(e, null, 2)}`);
+          process.exit(1);
+        }),
       );
     }
   },
-  starterPromise);
+    starterPromise);
+
+  log.white('Database checked and ready to fire, captain!');
 };
 
 export default {

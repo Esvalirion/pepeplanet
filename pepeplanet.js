@@ -9,6 +9,7 @@ import methodsList from './methods/index.js';
 import generateUI from './UI/generateUI.js';
 
 import playerdb from './db/players.js';
+import db from './db/database.js';
 
 const pepeplanet = {
   client: null,
@@ -16,18 +17,23 @@ const pepeplanet = {
   async renderNewUI() {
     const playerList = await this.client.query('GetPlayerList', [100, 0]);
 
-    playerList.forEach(async ({
-      playerID,
-      Login,
-      NickName,
-    }) => {
+    playerList.forEach(async ({ Login, playerID }) => {
       if (playerID === 0) return;
 
-      if (!playerdb.existPlayer(Login)) {
-        await playerdb.upsertPlayer(Login, NickName);
-      }
+      try {
+        const { NickName, IPAddress } = await this.client.query('GetDetailedPlayerInfo', [Login]);
 
-      generateUI(Login, this.client);
+        const isPlayerExist = await playerdb.existPlayer(Login);
+
+        if (!isPlayerExist) {
+          await playerdb.upsertPlayer(Login, NickName, IPAddress);
+        }
+
+        generateUI(Login, this.client);
+      } catch (err) {
+        log.red('Something went wrong in renderNewUI');
+        log.red(err);
+      }
     });
   },
 
@@ -115,6 +121,8 @@ const pepeplanet = {
 
   connect() {
     const client = gbxremote.createClient(config.trackmania.port, config.trackmania.host);
+
+    db.mysqlCheckAndDeployTables()
 
     client.on('error', (err) => {
       log.red('Could not connect to server');
