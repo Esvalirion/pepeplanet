@@ -3,6 +3,7 @@ import pool from './pool.js';
 import log from '../utils/log.js';
 import players from './players.js';
 import records from './records.js';
+import checkpoints from './checkpoints.js';
 
 /**
  *  Execute sql script which checks if all necessary tables exist in the MySQL database and creates
@@ -46,5 +47,6 @@ const mysqlCheckAndDeployTables = async () => {
 export default {
   players,
   records,
+  checkpoints,
   mysqlCheckAndDeployTables,
 };
