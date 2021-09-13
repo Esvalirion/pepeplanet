@@ -36,12 +36,12 @@ CREATE TABLE IF NOT EXISTS `karma` (
   INDEX `karmaUid` (`uid` ASC) VISIBLE,
   CONSTRAINT `karmaLogin`
     FOREIGN KEY (`login`)
-    REFERENCES `pepeplanet`.`players` (`login`)
+    REFERENCES `players` (`login`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `karmaUid`
     FOREIGN KEY (`uid`)
-    REFERENCES `pepeplanet`.`maps` (`uid`)
+    REFERENCES `maps` (`uid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -57,12 +57,12 @@ CREATE TABLE IF NOT EXISTS `records` (
   INDEX `recordsUid` (`uid` ASC) VISIBLE,
   CONSTRAINT `recordsLogin`
     FOREIGN KEY (`login`)
-    REFERENCES `pepeplanet`.`players` (`login`)
+    REFERENCES `players` (`login`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `recordsUid`
     FOREIGN KEY (`uid`)
-    REFERENCES `pepeplanet`.`maps` (`uid`)
+    REFERENCES `maps` (`uid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -78,12 +78,12 @@ CREATE TABLE IF NOT EXISTS `checkpoints` (
   INDEX `checkpointsLogin` (`uid` ASC) VISIBLE,
   CONSTRAINT `checkpointsLogin`
     FOREIGN KEY (`login`)
-    REFERENCES `pepeplanet`.`players` (`login`)
+    REFERENCES `players` (`login`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `checkpointsUid`
     FOREIGN KEY (`uid`)
-    REFERENCES `pepeplanet`.`maps` (`uid`)
+    REFERENCES `maps` (`uid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
