@@ -1,17 +1,24 @@
 import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import pool from './pool.js';
 import log from '../utils/log.js';
 import players from './players.js';
 import records from './records.js';
 import checkpoints from './checkpoints.js';
 
+// eslint-disable-next-line no-underscore-dangle
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /**
  *  Execute sql script which checks if all necessary tables exist in the MySQL database and creates
  *  them if necessary
  * */
 const mysqlCheckAndDeployTables = async () => {
   // get sql from file
-  const sqlToCreateMissingTables = await fs.promises.readFile('./script.sql', 'utf-8')
+  const sqlToCreateMissingTables = await fs.promises.readFile(
+    path.join(__dirname, './script.sql'),
+    'utf-8',
+  )
     .catch((e) => {
       log.red(`FileSystem Error: ${JSON.stringify(e, null, 2)}`);
       process.exit(1);

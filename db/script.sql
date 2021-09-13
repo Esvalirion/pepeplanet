@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   PRIMARY KEY (`login`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `maps` (
   `uid` VARCHAR(27) NOT NULL COMMENT 'Map unique ID',
@@ -26,11 +26,11 @@ CREATE TABLE IF NOT EXISTS `maps` (
   PRIMARY KEY (`uid`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `karma` (
-  `login` VARCHAR(22) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Player login',
-  `uid` VARCHAR(27) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Map unique ID',
+  `login` VARCHAR(22) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci' NOT NULL COMMENT 'Player login',
+  `uid` VARCHAR(27) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci' NOT NULL COMMENT 'Map unique ID',
   `vote` INT NOT NULL DEFAULT '0' COMMENT 'Karma vote',
   PRIMARY KEY (`login`, `uid`),
   INDEX `karmaUid` (`uid` ASC) VISIBLE,
@@ -46,11 +46,11 @@ CREATE TABLE IF NOT EXISTS `karma` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `records` (
-  `login` VARCHAR(22) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Player login',
-  `uid` VARCHAR(27) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Map unique ID',
+  `login` VARCHAR(22) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci' NOT NULL COMMENT 'Player login',
+  `uid` VARCHAR(27) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci' NOT NULL COMMENT 'Map unique ID',
   `time` INT NOT NULL COMMENT 'Record time',
   PRIMARY KEY (`login`, `uid`),
   INDEX `login` (`login` ASC) VISIBLE,
@@ -67,13 +67,13 @@ CREATE TABLE IF NOT EXISTS `records` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `checkpoints` (
   `cpNumber` INT NOT NULL COMMENT 'Checkpoint number',
   `time` INT NOT NULL COMMENT 'Record time on checkpoint',
-  `login` VARCHAR(22) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Player login',
-  `uid` VARCHAR(27) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Map unique ID',
+  `login` VARCHAR(22) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci' NOT NULL COMMENT 'Player login',
+  `uid` VARCHAR(27) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci' NOT NULL COMMENT 'Map unique ID',
   PRIMARY KEY (`login`, `uid`),
   INDEX `checkpointsLogin` (`uid` ASC) VISIBLE,
   CONSTRAINT `checkpointsLogin`
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `checkpoints` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS `settings` (
   `plugin` VARCHAR(255) NOT NULL COMMENT 'Plugin name',
@@ -96,8 +96,4 @@ CREATE TABLE IF NOT EXISTS `settings` (
   PRIMARY KEY (`plugin`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+COLLATE = utf8mb4_general_ci;
