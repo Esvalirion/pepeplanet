@@ -11,7 +11,7 @@ import checkpoints from './checkpoints.js';
  * */
 const mysqlCheckAndDeployTables = async () => {
   // get sql from file
-  const sqlToCreateMissingTables = await fs.promises.readFile('./script.sql', 'utf-8')
+  const sqlToCreateMissingTables = await fs.promises.readFile('./db/script.sql', 'utf-8')
     .catch((e) => {
       log.red(`FileSystem Error: ${JSON.stringify(e, null, 2)}`);
       process.exit(1);
