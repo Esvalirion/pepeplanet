@@ -15,7 +15,7 @@ TrackMania2020 dedicated server controller
 In your MySQL server create db
 
 ```sh
-CREATE DATABASE pepedb CHARACTER SET UTF8mb4 collate utf8mb4_unicode_ci;
+CREATE DATABASE pepeplanet CHARACTER SET UTF8mb4 collate utf8mb4_unicode_ci;
 ```
 
 Create db user
@@ -27,8 +27,15 @@ CREATE USER 'pepega'@'localhost' IDENTIFIED BY 'your password';
 Grant all access to user
 
 ```sh
-GRANT ALL PRIVILEGES ON pepedb.* TO 'pepega'@'localhost';
+GRANT ALL PRIVILEGES ON pepeplanet.* TO 'pepega'@'localhost';
 ```
+
+Run script from root folder of this project.
+(Dont forget to enter 'your password' when mysql ask for it)
+```sh
+mysql -u pepega -p < ./db/script.sql
+```
+
 
 ### Installation server
 
