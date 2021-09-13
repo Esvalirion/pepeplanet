@@ -2,7 +2,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
-CREATE TABLE IF NOT EXISTS `pepeplanet`.`players` (
+CREATE TABLE IF NOT EXISTS `players` (
   `login` VARCHAR(22) NOT NULL COMMENT 'Player login',
   `name` TEXT NOT NULL COMMENT 'Player name',
   `ip` TEXT NOT NULL COMMENT 'Player ip',
@@ -11,7 +11,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `pepeplanet`.`maps` (
+CREATE TABLE IF NOT EXISTS `maps` (
   `uid` VARCHAR(27) NOT NULL COMMENT 'Map unique ID',
   `name` TEXT NOT NULL COMMENT 'Map name',
   `file` TEXT NOT NULL COMMENT 'Map path relative to UserData/Maps/',
@@ -28,7 +28,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `pepeplanet`.`karma` (
+CREATE TABLE IF NOT EXISTS `karma` (
   `login` VARCHAR(22) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Player login',
   `uid` VARCHAR(27) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Map unique ID',
   `vote` INT NOT NULL DEFAULT '0' COMMENT 'Karma vote',
@@ -48,7 +48,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `pepeplanet`.`records` (
+CREATE TABLE IF NOT EXISTS `records` (
   `login` VARCHAR(22) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Player login',
   `uid` VARCHAR(27) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Map unique ID',
   `time` INT NOT NULL COMMENT 'Record time',
@@ -69,7 +69,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `pepeplanet`.`checkpoints` (
+CREATE TABLE IF NOT EXISTS `checkpoints` (
   `cpNumber` INT NOT NULL COMMENT 'Checkpoint number',
   `time` INT NOT NULL COMMENT 'Record time on checkpoint',
   `login` VARCHAR(22) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL COMMENT 'Player login',
@@ -90,7 +90,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `pepeplanet`.`settings` (
+CREATE TABLE IF NOT EXISTS `settings` (
   `plugin` VARCHAR(255) NOT NULL COMMENT 'Plugin name',
   `settings` JSON NOT NULL COMMENT 'Settings JSON',
   PRIMARY KEY (`plugin`))
