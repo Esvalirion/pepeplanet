@@ -15,6 +15,10 @@ import VoteUpdated from './VoteUpdated.js';
 
 import WayPoint from './WayPoint.js';
 
+/**
+ * Author Esvalirion (https://github.com/Esvalirion)
+ */
+
 export default {
   PlayerConnect,
   PlayerDisconnect,

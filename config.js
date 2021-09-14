@@ -1,3 +1,8 @@
+/**
+ * Author Esvalirion (https://github.com/Esvalirion)
+ * Author il12 (https://github.com/il12)
+ */
+
 const config = {
   // Trackmania server settings
   trackmania: {
