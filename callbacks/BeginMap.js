@@ -12,6 +12,9 @@ import mapdb from '../db/maps.js';
 const BeginMap = async (_, client) => {
   try {
     const map = await client.query('GetCurrentMapInfo', []);
+
+    server.log(`$0f0${map.Name}$g by $0f0${map.Author}$g, at is $0f0${map.AuthorTime}, try to beat, pepegas`);
+
     const isMapExist = await mapdb.existsMap(map.UId);
 
     if (isMapExist) return;
