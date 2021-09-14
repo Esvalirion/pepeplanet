@@ -57,9 +57,9 @@ const pepeplanet = {
       }
 
       if (!callbackFn) {
-        log.red(`Unregistered method ${method} detected, captain!`);
-        log.white(JSON.stringify(params));
-        log.white('----------');
+        // log.red(`Unregistered method ${method} detected, captain!`);
+        // log.white(JSON.stringify(params));
+        // log.white('----------');
         return;
       }
 

@@ -10,7 +10,7 @@ const getDateString = () => {
   const timeNow = new Date();
 
   const dateString = fns.format(timeNow, 'dd.MM.yyyy');
-  const timeString = fns.format(timeNow, 'mm:ss:SSS');
+  const timeString = fns.format(timeNow, 'HH:mm:ss');
 
   return {
     dateString,
@@ -18,19 +18,21 @@ const getDateString = () => {
   };
 };
 
-const { dateString, timeString } = getDateString();
-
 const log = {
   red: (message) => {
+    const { dateString, timeString } = getDateString();
     console.log(`[${dateString} at ${timeString}]: ❌ ${chalk.red(message)}`);
   },
   green: (message) => {
+    const { dateString, timeString } = getDateString();
     console.log(`[${dateString} at ${timeString}]: ${chalk.green(message)}`);
   },
   yellow: (message) => {
+    const { dateString, timeString } = getDateString();
     console.log(`[${dateString} at ${timeString}]: ${chalk.yellow(message)}`);
   },
   white: (message) => {
+    const { dateString, timeString } = getDateString();
     console.log(`[${dateString} at ${timeString}]: ${chalk.white(message)}`);
   },
 };

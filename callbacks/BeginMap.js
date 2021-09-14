@@ -11,8 +11,7 @@ import mapdb from '../db/maps.js';
 
 const BeginMap = async (_, client) => {
   try {
-    const map = client.query('GetCurrentMapInfo', []);
-
+    const map = await client.query('GetCurrentMapInfo', []);
     const isMapExist = await mapdb.existsMap(map.UId);
 
     if (isMapExist) return;
@@ -25,12 +24,10 @@ const BeginMap = async (_, client) => {
       name: map.Name,
       file: map.FileName,
       author: map.Author,
-      medals: {
-        bronze: map.BronzeTime,
-        silver: map.SilverTime,
-        gold: map.GoldTime,
-        at: map.AuthorTime,
-      },
+      bronze: map.BronzeTime,
+      silver: map.SilverTime,
+      gold: map.GoldTime,
+      at: map.AuthorTime,
       isMultilap: Boolean(map.LapRace),
       nbLaps: map.NbLaps,
       nbCheckpoints: map.NbCheckpoints,

@@ -30,8 +30,8 @@ const getMap = async (map) => {
  */
 const upsertMap = async (map) => {
   const sql = `
-            INSERT INTO maps (uid, name, file, author, medals, isMultilap, nbLaps, nbCheckpoints, type, style, tmxid)
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO maps (uid, name, file, author, bronze, silver, gold, at, isMultilap, nbLaps, nbCheckpoints, type, style, tmxid)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE
                 type = ?,
                 style = ?,
