@@ -1,5 +1,9 @@
 import Mustache from 'mustache';
 
+/**
+ * Author Esvalirion (https://github.com/Esvalirion)
+ */
+
 const tmpl = `
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <manialink version="3">
@@ -50,8 +54,6 @@ const tmpl = `
 </manialink>
 `;
 
-const mainFrame = (templates) => {
-  return Mustache.render(tmpl, templates);
-}
+const mainFrame = (templates) => Mustache.render(tmpl, templates);
 
 export default mainFrame;

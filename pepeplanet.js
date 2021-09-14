@@ -5,23 +5,27 @@ import config from './config.js';
 import log from './utils/log.js';
 import server from './utils/server.js';
 import runningMessage from './utils/runningMessage.js';
-import methodsList from './methods/index.js';
+import callbacksList from './callbacks/index.js';
 import generateUI from './UI/generateUI.js';
 
 import playerdb from './db/players.js';
 import db from './db/database.js';
 
+/**
+ * Author Esvalirion (https://github.com/Esvalirion)
+ */
+
 const pepeplanet = {
   client: null,
 
-  async renderNewUI() {
-    const playerList = await this.client.query('GetPlayerList', [100, 0]);
+  async renderNewUI(client) {
+    const playerList = await client.query('GetPlayerList', [100, 0]);
 
     playerList.forEach(async ({ Login, playerID }) => {
       if (playerID === 0) return;
 
       try {
-        const { NickName, IPAddress } = await this.client.query('GetDetailedPlayerInfo', [Login]);
+        const { NickName, IPAddress } = await client.query('GetDetailedPlayerInfo', [Login]);
 
         const isPlayerExist = await playerdb.existPlayer(Login);
 
@@ -29,7 +33,7 @@ const pepeplanet = {
           await playerdb.upsertPlayer(Login, NickName, IPAddress);
         }
 
-        generateUI(Login, this.client);
+        generateUI(Login, client);
       } catch (err) {
         log.red('Something went wrong in renderNewUI');
         log.red(err);
@@ -39,24 +43,23 @@ const pepeplanet = {
 
   async startCallbackListening() {
     this.client.on('callback', (method, params) => {
-      let callbackFn = _.get(methodsList, method.split('.')[1]);
+      let callbackFn = _.get(callbacksList, method.split('.')[1]);
       let attrs = params;
 
       if (method.split('.')[1] === 'ModeScriptCallbackArray') {
         if (params[0].split('.')[1] === 'Event') {
-          callbackFn = _.get(methodsList, params[0].split('.')[2]);
+          callbackFn = _.get(callbacksList, params[0].split('.')[2]);
         } else {
-          callbackFn = _.get(methodsList, params[0].split('.')[1]);
+          callbackFn = _.get(callbacksList, params[0].split('.')[1]);
         }
 
         attrs = JSON.parse(params[1][0]);
       }
 
       if (!callbackFn) {
-        // log.red('Unregistered method detected, captain!');
-        // log.white(method);
-        // log.white(JSON.stringify(params));
-        // log.white('----------');
+        log.red(`Unregistered method ${method} detected, captain!`);
+        log.white(JSON.stringify(params));
+        log.white('----------');
         return;
       }
 
@@ -86,7 +89,7 @@ const pepeplanet = {
     server.log('$0f0How it feels, pepegas, pepeplanet is here!');
 
     this.startCallbackListening();
-    this.renderNewUI();
+    this.renderNewUI(client);
   },
 
   async enableCallbacks(client) {
@@ -122,7 +125,7 @@ const pepeplanet = {
   connect() {
     const client = gbxremote.createClient(config.trackmania.port, config.trackmania.host);
 
-    db.mysqlCheckAndDeployTables()
+    db.mysqlCheckAndDeployTables();
 
     client.on('error', (err) => {
       log.red('Could not connect to server');

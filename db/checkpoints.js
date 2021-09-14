@@ -4,6 +4,7 @@ import pool from './pool.js';
 import log from '../utils/log.js';
 
 /**
+ * Author il12 (https://github.com/il12)
  * @param map {string} Map UID
  * @param login {string} Player login
  * @param cp {number} Checkpoint number

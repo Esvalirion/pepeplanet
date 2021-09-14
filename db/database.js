@@ -7,6 +7,11 @@ import players from './players.js';
 import records from './records.js';
 import checkpoints from './checkpoints.js';
 
+/**
+ * Author il12 (https://github.com/il12)
+ * Esvalirion (https://github.com/Esvalirion)
+ */
+
 // eslint-disable-next-line no-underscore-dangle
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /**
@@ -47,7 +52,7 @@ const mysqlCheckAndDeployTables = async () => {
       );
     }
   },
-    starterPromise);
+  starterPromise);
 
   log.white('Database checked and ready to fire, captain!');
 };

@@ -1,3 +1,7 @@
+/**
+ * Author Esvalirion (https://github.com/Esvalirion)
+ */
+
 const attrs = {
   frameName: 'clockWidget',
   hiddenPos: '25 0',

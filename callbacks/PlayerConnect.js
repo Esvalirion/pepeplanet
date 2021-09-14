@@ -1,5 +1,3 @@
-import fns from 'date-fns';
-
 import log from '../utils/log.js';
 import server from '../utils/server.js';
 import config from '../config.js';
@@ -8,34 +6,15 @@ import generateUI from '../UI/generateUI.js';
 
 import playerdb from '../db/players.js';
 
-const getDateString = () => {
-  const timeNow = new Date();
-
-  const dateString = fns.format(timeNow, 'dd.MM.yyyy');
-  const timeString = fns.format(timeNow, 'mm:ss:SSS');
-
-  return {
-    dateString,
-    timeString,
-  };
-};
+/**
+ * Author Esvalirion (https://github.com/Esvalirion)
+ */
 
 const PlayerConnect = async ([login, isSpectator], client) => {
   try {
     const { Login, NickName, IPAddress } = await client.query('GetDetailedPlayerInfo', [login]);
 
-    const { dateString, timeString } = getDateString();
-
-    log.white(`
-      ${dateString} at ${timeString}
-
-      nick: ${NickName}
-      login: ${Login}
-      ip: ${IPAddress}
-
-      Player connect${isSpectator ? ' as spectator' : ''}
-      ----------
-    `);
+    log.white(`Player ${NickName} connect ${isSpectator ? ' as spectator' : ''}`);
 
     const isPlayerExist = await playerdb.existPlayer(Login);
 
