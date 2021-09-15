@@ -26,23 +26,23 @@ const PlayerConnect = async ([login, isSpectator], client) => {
     }
 
     if (config.admins.includes(Login)) {
-      server.log(`$sWooow, admiral pepega $0f0${NickName}$g here!`);
+      server.log(`$ff0🔥 $0f0Wooow, admiral pepega $ff0$o${NickName}$0f0$z $s$0f0here! $z$ff0🔥`);
     } else {
-      server.log(`$sAnother pepega ${NickName}$g with us`);
+      server.log(`Another pepega $0f0${NickName}$g with us`);
     }
 
     generateUI(Login, client);
 
-    const { UId } = client.query('GetCurrentMapInfo', []);
-    const playerRecord = recorddb.getRecord(UId, Login);
+    // const { UId } = client.query('GetCurrentMapInfo', []);
+    // const playerRecord = await recorddb.getRecord(UId, Login);
 
-    if (playerRecord) {
-      server.private(Login, `Your pb on this map is $0f0${fns.format(playerRecord, 'mm:ss:SSS')}`);
+    // if (playerRecord) {
+    //   server.private(Login, `Your pb on this map is $0f0${fns.format(playerRecord, 'mm:ss:SSS')}`);
 
-      return;
-    }
+    //   return;
+    // }
 
-    server.private(Login, 'Your don\'t have pb on this map, pepega');
+    // server.private(Login, 'Your don\'t have pb on this map, pepega');
   } catch (err) {
     log.red('Something went wrong in PlayerConnect');
     log.red(err);

@@ -8,8 +8,8 @@ const server = {
   log: (message) => {
     pepeplanet.client.query('ChatSendServerMessage', [message]);
   },
-  private: (login, message) => {
-    pepeplanet.client.query('ChatSendServerMessageToLogin', [login, message]);
+  private: (message, login) => {
+    pepeplanet.client.query('ChatSendServerMessageToLogin', [`${message}`, login]);
   },
 };
 

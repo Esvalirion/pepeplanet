@@ -37,7 +37,7 @@ const getCheckpoint = async (map, login, cp) => {
  */
 const getListOfPersonalBestCheckpointsOnMap = async (map, login) => {
   const sql = `
-                SELECT name, time, cpNumber FROM checkpoints
+                SELECT time, cpNumber FROM checkpoints
                 WHERE
                     uid = ? AND
                     login = ?
@@ -52,7 +52,7 @@ const getListOfPersonalBestCheckpointsOnMap = async (map, login) => {
     process.exit(1);
   });
 
-  return res;
+  return res[0];
 };
 
 /**
@@ -75,7 +75,7 @@ const getListOfBestCheckpointsOnMap = async (map) => {
     process.exit(1);
   });
 
-  return res;
+  return res[0];
 };
 
 /**
@@ -88,19 +88,16 @@ const getListOfBestCheckpointsOnMap = async (map) => {
  */
 const upsertCheckpoint = async (record) => {
   const sql = `
-            INSERT INTO checkpoints (uid, login, cp, time)
+            INSERT INTO checkpoints (uid, login, cpNumber, time)
             VALUES(?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE
                 time = ?
             `;
 
-  const preparedSql = mysql.format(
-    sql,
-    [record.map, record.login, record.cp, record.time, record.time],
-  );
+  const preparedSql = mysql.format(sql, [...Object.values(record), record.time]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
-    log.red('Something wrong in upsertRecord, captain!');
+    log.red('Something wrong in upsertCheckpoint, captain!');
     log.red(JSON.stringify(e, null, 2));
     process.exit(1);
   });

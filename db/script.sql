@@ -81,16 +81,16 @@ CREATE TABLE IF NOT EXISTS `checkpoints` (
   `time` INT NOT NULL COMMENT 'Record time on checkpoint',
   `login` VARCHAR(22) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci' NOT NULL COMMENT 'Player login',
   `uid` VARCHAR(27) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_general_ci' NOT NULL COMMENT 'Map unique ID',
-  PRIMARY KEY (`login`, `uid`),
-  INDEX `checkpointsLogin` (`uid` ASC) VISIBLE,
-  CONSTRAINT `checkpointsLogin`
-    FOREIGN KEY (`login`)
-    REFERENCES `players` (`login`)
+  PRIMARY KEY (`login`, `uid`, `cpNumber`),
+  INDEX checkpointsLogin (uid ASC, login, cpNumber) VISIBLE,
+  CONSTRAINT checkpointsLogin
+    FOREIGN KEY (login)
+    REFERENCES players (login)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `checkpointsUid`
-    FOREIGN KEY (`uid`)
-    REFERENCES `maps` (`uid`)
+  CONSTRAINT checkpointsUid
+    FOREIGN KEY (uid)
+    REFERENCES maps (uid)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB

@@ -27,57 +27,68 @@ import checkpointdb from '../db/checkpoints.js';
 let recordData = null;
 
 const setData = async (params, client) => {
-  const { NickName, Login } = await client.query('GetDetailedPlayerInfo', [params.login]);
-
   const { UId } = await client.query('GetCurrentMapInfo', []);
-  const nickName = NickName;
-  const login = Login;
 
   const record = await recorddb.getRecord(UId, login);
   const cps = await checkpointdb.getListOfPersonalBestCheckpointsOnMap(UId, login);
 
   return {
-    UId,
-    nickName,
-    login,
-    record,
+    record: record || 0,
     cps,
+    UId,
   };
 };
 
+let nickName = null;
+let login = null;
+
 const WayPoint = async (params, client) => {
   try {
+    if (!nickName || !login) {
+      const { NickName, Login } = await client.query('GetDetailedPlayerInfo', [params.login]);
+      nickName = NickName;
+      login = Login;
+    }
+
     if (!recordData) {
-      recordData = setData(params, client);
+      recordData = await setData(params, client);
     }
 
     const timeString = fns.format(params.racetime, 'mm:ss:SSS');
 
     // TODO: for laps
     if (!params.isendrace) {
-      if (recordData.cps[params.checkpointinrace] > params.time) return;
+      const oldTime = recordData.cps[params.checkpointinrace]?.time;
 
-      await checkpointdb.upsertRecord({
+      if (oldTime && params.racetime > oldTime) return;
+      // TODO: only when finish
+      await checkpointdb.upsertCheckpoint({
         map: recordData.UId,
-        login: recordData.login,
+        login: login,
         cp: params.checkpointinrace,
-        time: params.time,
+        time: params.racetime,
       });
+
+      if (oldTime) {
+        server.private(`${fns.format(params.racetime, 'mm:ss:SSS')} (-${fns.format(oldTime - params.racetime, 'mm:ss:SSS')})`, login);
+      }
+
+      recordData = null;
 
       return;
     }
 
-    if (params.racetime < recordData.record || recordData.record <= 1) {
-      await recorddb.upsertRecord({
-        map: recordData.UId,
-        login: recordData.login,
-        time: params.time,
-      });
+    // if (params.racetime < recordData.record || recordData.record <= 1) {
+    //   await recorddb.upsertRecord({
+    //     map: recordData.UId,
+    //     login: login,
+    //     time: params.time,
+    //   });
 
-      server.log(`pepega $0f0${recordData.nickName}$g gain self pb $0f0${timeString}`);
+    //   server.log(`pepega $0f0${recordData.nickName}$g gain self pb $0f0${timeString}`);
 
-      recordData = null;
-    }
+    //   recordData = null;
+    // }
   } catch (err) {
     log.red('Something went wrong in WayPoint');
     log.red(err);

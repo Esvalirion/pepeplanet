@@ -35,10 +35,11 @@ const upsertMap = async (map) => {
             ON DUPLICATE KEY UPDATE
                 type = ?,
                 style = ?,
-                file = ?
+                file = ?,
+                tmxid = ?
             `;
 
-  const preparedSql = mysql.format(sql, [...Object.values(map), map.type, map.style, map.file]);
+  const preparedSql = mysql.format(sql, [...Object.values(map), map.type, map.style, map.file, map.tmxid]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in upsertMap, captain!');

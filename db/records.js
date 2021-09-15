@@ -27,7 +27,7 @@ const getRecord = async (map, login) => {
     process.exit(1);
   });
 
-  return res[0];
+  return res[0][0];
 };
 
 /**
