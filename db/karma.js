@@ -46,7 +46,7 @@ const getKarma = async (uid) => {
     process.exit(1);
   });
 
-  return Boolean(res);
+  return res[0];
 };
 
 /**
