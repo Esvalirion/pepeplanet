@@ -25,8 +25,9 @@ const getPlayer = async (login) => {
 };
 
 /**
- * @param login {string} Player object
- * @param name {string} Player object
+ * @param login {string} Player login
+ * @param name {string} Player name
+ * @param ip {string} Player ip
  */
 const upsertPlayer = async (login, name, ip) => {
   const sql = `
@@ -50,7 +51,7 @@ const upsertPlayer = async (login, name, ip) => {
 };
 
 /**
- * @param login {string} Player info object
+ * @param login {string} Player login
  */
 const existPlayer = async (login) => {
   const sql = `
