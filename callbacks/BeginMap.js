@@ -1,8 +1,11 @@
 import fetch from 'node-fetch';
 
+import pepeplanet from '../pepeplanet.js';
+
 import server from '../utils/server.js';
 import log from '../utils/log.js';
 
+import generateUI from '../UI/generateUI.js';
 import mapdb from '../db/maps.js';
 
 /**
@@ -12,6 +15,10 @@ import mapdb from '../db/maps.js';
 const BeginMap = async (_, client) => {
   try {
     const map = await client.query('GetCurrentMapInfo', []);
+
+    Object.keys(pepeplanet.players).forEach((key) => {
+      generateUI(key, client);
+    });
 
     server.log(`$0f0${map.Name}$g by $0f0${map.Author}$g, at is $0f0${map.AuthorTime}, try to beat, pepegas`);
 

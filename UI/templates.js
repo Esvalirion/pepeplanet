@@ -1,4 +1,5 @@
 import clockWidget from './clockWidget.js';
+import medalsWidget from './medalsWidget.js';
 
 /**
  * Author Esvalirion (https://github.com/Esvalirion)
@@ -6,4 +7,5 @@ import clockWidget from './clockWidget.js';
 
 export default [
   clockWidget,
+  medalsWidget,
 ];
