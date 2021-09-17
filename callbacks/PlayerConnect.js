@@ -9,6 +9,8 @@ import generateUI from '../UI/generateUI.js';
 import playerdb from '../db/players.js';
 import recorddb from '../db/records.js';
 
+import pepeplanet from '../pepeplanet.js';
+
 /**
  * Author Esvalirion (https://github.com/Esvalirion)
  */
@@ -16,6 +18,8 @@ import recorddb from '../db/records.js';
 const PlayerConnect = async ([login, isSpectator], client) => {
   try {
     const { Login, NickName, IPAddress } = await client.query('GetDetailedPlayerInfo', [login]);
+
+    pepeplanet.addPlayerToPool(Login, NickName);
 
     log.white(`Player ${NickName} connect ${isSpectator ? ' as spectator' : ''}`);
 

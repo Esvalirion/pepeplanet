@@ -13,6 +13,10 @@ const BeginMap = async (_, client) => {
   try {
     const map = await client.query('GetCurrentMapInfo', []);
 
+    Object.keys(pepeplanet.players).forEach(key => {
+      generateUI(key, client);
+    });
+
     server.log(`$0f0${map.Name}$g by $0f0${map.Author}$g, at is $0f0${map.AuthorTime}, try to beat, pepegas`);
 
     const isMapExist = await mapdb.existsMap(map.UId);

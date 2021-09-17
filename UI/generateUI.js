@@ -5,10 +5,29 @@ import templates from './templates.js';
  * Author Esvalirion (https://github.com/Esvalirion)
  */
 
-const generateUI = (login, client) => {
-  const tmpl = mainFrame({ childs: templates });
+const generateUI = async (login, client) => {
+  const childs = await Promise.all(templates.map(async (tmpl) => {
+    let template = tmpl.template;
+    if (typeof tmpl.template === 'function') {
+      template = await tmpl.template(client);
+    }
 
-  client.query('SendDisplayManialinkPageToLogin', [login, tmpl, 0, false]);
+    let loop = tmpl.loop;
+    if (typeof tmpl.loop === 'function') {
+      loop = await tmpl.loop(client);
+    }
+
+    return {
+      ...tmpl,
+      template,
+      loop,
+    }
+  }));
+  const tmpls = mainFrame({
+    childs,
+  });
+
+  client.query('SendDisplayManialinkPageToLogin', [login, tmpls, 0, false]);
 };
 
 export default generateUI;

@@ -17,12 +17,23 @@ import db from './db/database.js';
 
 const pepeplanet = {
   client: null,
+  players: {},
+
+  addPlayerToPool(login, nickName) {
+    if (this.players[login]) return;
+
+    this.players[login] = {
+      nickName,
+    };
+  },
 
   async renderNewUI(client) {
-    const playerList = await client.query('GetPlayerList', [100, 0]);
+    const playerList = await client.query('GetPlayerList', [1000, 0]);
 
-    playerList.forEach(async ({ Login, playerID }) => {
+    playerList.forEach(async ({ Login, playerID, NickName }) => {
       if (playerID === 0) return;
+
+      this.addPlayerToPool(Login, NickName);
 
       try {
         const { NickName, IPAddress } = await client.query('GetDetailedPlayerInfo', [Login]);
