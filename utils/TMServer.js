@@ -42,12 +42,12 @@ const stopTMDedicatedServer = () => {
 
 const startTMDedicatedServer = () => {
   try {
-    const TMServerFile = path.join(config.TMDS.pathToTMServerDirectory, 'TrackmaniaServer.exe');
-
     const TMServerOptions = config.TMDS.options;
 
     const ENV_PLATFORM = process.platform;
     if (ENV_PLATFORM === 'win32') {
+      const TMServerFile = path.join(config.TMDS.pathToTMServerDirectory, 'TrackmaniaServer.exe');
+
       const TMServer = spawn(`
         chcp 65001; ${TMServerFile} ${stringifyStartOptions(TMServerOptions)}`,
       {
@@ -69,12 +69,12 @@ const startTMDedicatedServer = () => {
 
 const restartTMDedicatedServer = () => {
   try {
-    const TMServerFile = path.join(config.TMDS.pathToTMServerDirectory, 'TrackmaniaServer.exe');
-
     const TMServerOptions = config.TMDS.options;
 
     const ENV_PLATFORM = process.platform;
     if (ENV_PLATFORM === 'win32') {
+      const TMServerFile = path.join(config.TMDS.pathToTMServerDirectory, 'TrackmaniaServer.exe');
+
       const TMServer = spawn(`
         chcp 65001;
         Get-Process TrackmaniaServer -ErrorAction SilentlyContinue | Stop-Process -PassThru;
