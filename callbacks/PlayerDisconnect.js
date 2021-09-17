@@ -1,4 +1,5 @@
 import pepeplanet from '../pepeplanet.js';
+import log from '../utils/log.js';
 
 /**
  * Author Esvalirion (https://github.com/Esvalirion)

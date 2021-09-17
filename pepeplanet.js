@@ -36,7 +36,7 @@ const pepeplanet = {
       this.addPlayerToPool(Login, NickName);
 
       try {
-        const { NickName, IPAddress } = await client.query('GetDetailedPlayerInfo', [Login]);
+        const { IPAddress } = await client.query('GetDetailedPlayerInfo', [Login]);
 
         const isPlayerExist = await playerdb.existPlayer(Login);
 

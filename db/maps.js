@@ -39,7 +39,9 @@ const upsertMap = async (map) => {
                 tmxid = ?
             `;
 
-  const preparedSql = mysql.format(sql, [...Object.values(map), map.type, map.style, map.file, map.tmxid]);
+  const preparedSql = mysql.format(sql, [
+    ...Object.values(map),
+    map.type, map.style, map.file, map.tmxid]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in upsertMap, captain!');

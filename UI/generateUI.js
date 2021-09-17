@@ -7,12 +7,11 @@ import templates from './templates.js';
 
 const generateUI = async (login, client) => {
   const childs = await Promise.all(templates.map(async (tmpl) => {
-    let template = tmpl.template;
+    let { template, loop } = tmpl;
     if (typeof tmpl.template === 'function') {
       template = await tmpl.template(client);
     }
 
-    let loop = tmpl.loop;
     if (typeof tmpl.loop === 'function') {
       loop = await tmpl.loop(client);
     }
@@ -21,7 +20,7 @@ const generateUI = async (login, client) => {
       ...tmpl,
       template,
       loop,
-    }
+    };
   }));
   const tmpls = mainFrame({
     childs,

@@ -1,9 +1,11 @@
+import pepeplanet from '../pepeplanet.js';
+
 /**
  * Author Esvalirion (https://github.com/Esvalirion)
  */
 
 const GiveUp = (params) => {
-  players[params.login].wayPoints = [];
-}
+  pepeplanet.players[params.login].wayPoints = [];
+};
 
 export default GiveUp;

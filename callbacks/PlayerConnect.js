@@ -1,5 +1,3 @@
-import fns from 'date-fns';
-
 import log from '../utils/log.js';
 import server from '../utils/server.js';
 import config from '../config.js';
@@ -7,7 +5,6 @@ import config from '../config.js';
 import generateUI from '../UI/generateUI.js';
 
 import playerdb from '../db/players.js';
-import recorddb from '../db/records.js';
 
 import pepeplanet from '../pepeplanet.js';
 
@@ -41,7 +38,10 @@ const PlayerConnect = async ([login, isSpectator], client) => {
     // const playerRecord = await recorddb.getRecord(UId, Login);
 
     // if (playerRecord) {
-    //   server.private(Login, `Your pb on this map is $0f0${fns.format(playerRecord, 'mm:ss:SSS')}`);
+    // server.private(
+    //   Login,
+    //   `Your pb on this map is $0f0${fns.format(playerRecord, 'mm:ss:SSS')}`
+    // );
 
     //   return;
     // }
