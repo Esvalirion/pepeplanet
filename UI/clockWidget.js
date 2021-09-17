@@ -9,11 +9,11 @@ const attrs = {
 
 const template = `
   <frame id="${attrs.frameName}">
-    <label id="${attrs.frameName}arrow" class="trigger${attrs.frameName} text-light" pos="130 75" size="10 10" text="❌" textfont="RajdhaniMono" textsize="2" ScriptEvents="1" halign="center" valign="center" />
+    <label id="${attrs.frameName}arrow" class="trigger${attrs.frameName} text-light" pos="132.5 77.5" size="5 5" text="❌" textfont="RajdhaniMono" textsize="1" ScriptEvents="1" halign="center" valign="center" />
 
-    <quad size="25 10" pos="135 75" bgcolor="000000" opacity="0.3" valign="center"/>
+    <quad size="25 10" pos="135 75" bgcolor="000000" opacity="0.5" valign="center"/>
 
-    <label pos="140 75" id="clock" textsize="2" textcolor="FFFFFF" text="00:00:00" z-index="2" textfont="RajdhaniMono" valign="center"/>
+    <label pos="140 75.5" id="clock" textsize="2" textcolor="FFFFFF" text="00:00:00" z-index="2" textfont="RajdhaniMono" valign="center"/>
   </frame>
 `;
 

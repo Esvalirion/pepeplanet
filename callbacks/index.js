@@ -14,6 +14,7 @@ import TunnelDataReceived from './TunnelDataReceived.js';
 import VoteUpdated from './VoteUpdated.js';
 
 import WayPoint from './WayPoint.js';
+import GiveUp from './GiveUp.js';
 
 /**
  * Author Esvalirion (https://github.com/Esvalirion)
@@ -36,7 +37,8 @@ export default {
   VoteUpdated,
   WayPoint,
   event: {
-    // 'Trackmania.Event.WayPoint'
+    // 'Trackmania.Event'
     WayPoint,
+    GiveUp,
   },
 };

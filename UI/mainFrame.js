@@ -14,7 +14,9 @@ const tmpl = `
     #Include "TextLib" as TextLib
 
     {{#childs}}
-      {{{declarations}}}
+      {{#declarations}}
+        {{{declarations}}}
+      {{/declarations}}
     {{/childs}}
 
     {{#childs}}
@@ -29,7 +31,9 @@ const tmpl = `
       yield;
 
       {{#childs}}
-        {{{loop}}}
+        {{#loop}}
+          {{{loop}}}
+        {{/loop}}
       {{/childs}}
 
       foreach(event in PendingEvents) {
