@@ -2,8 +2,11 @@ import { spawn } from 'child_process';
 import process from 'process';
 import path from 'path';
 import log from './log.js';
-import config from '../config.js';
+import config from '../TMServerConfig.js';
 
+/**
+* @param options {object} Options object from ../TMServerConfig.js
+ */
 const stringifyStartOptions = (options) => Object.keys(options).reduce((acc, key) => {
   if (typeof options[key] !== 'boolean' && options[key].length) {
     return `${acc} /${key}="${options[key]}"`;
@@ -13,6 +16,9 @@ const stringifyStartOptions = (options) => Object.keys(options).reduce((acc, key
   return acc;
 }, '');
 
+/**
+ * @param client {client} GBXRemote client
+ */
 const stopTMDedicatedServer = async (client) => {
   try {
     await client.query('StopServer');
@@ -23,32 +29,34 @@ const stopTMDedicatedServer = async (client) => {
   }
 };
 
+/**
+ * @returns {ChildProcessWithoutNullStreams}
+ */
+// eslint-disable-next-line consistent-return
 const startTMDedicatedServer = () => {
   try {
-    const TMServerOptions = config.TMDS.options;
+    const TMServerOptions = config.options;
 
     const ENV_PLATFORM = process.platform;
     if (ENV_PLATFORM === 'win32') {
-      const TMServerFile = path.join(config.TMDS.pathToTMServerDirectory, 'TrackmaniaServer.exe');
+      const TMServerFile = path.join(config.pathToTMServerDirectory, 'TrackmaniaServer.exe');
 
-      const TMServer = spawn(`
-        chcp 65001; ${TMServerFile} ${stringifyStartOptions(TMServerOptions)}`,
-      {
-        shell: 'powershell.exe',
-        encoding: 'utf8',
-        cwd: config.TMDS.pathToTMServerDirectory,
-      });
-    } else if (ENV_PLATFORM === 'linux') {
-      const TMServerFile = path.join(config.TMDS.pathToTMServerDirectory, 'TrackmaniaServer');
+      return spawn(`chcp 65001; ${TMServerFile} ${stringifyStartOptions(TMServerOptions)}`,
+        {
+          shell: 'powershell.exe',
+          encoding: 'utf8',
+          cwd: config.pathToTMServerDirectory,
+        });
+    } if (ENV_PLATFORM === 'linux') {
+      const TMServerFile = path.join(config.pathToTMServerDirectory, 'TrackmaniaServer');
 
-      const TMServer = spawn(`${TMServerFile} ${stringifyStartOptions(TMServerOptions)}`,
+      return spawn(`${TMServerFile} ${stringifyStartOptions(TMServerOptions)}`,
         {
           encoding: 'utf8',
-          cwd: config.TMDS.pathToTMServerDirectory,
+          cwd: config.pathToTMServerDirectory,
         });
-    } else {
-      log.red('This function has not yet been implemented on your architecture');
     }
+    log.red('This function has not yet been implemented on your architecture');
   } catch (e) {
     log.red('Something wrong in startTMDedicatedServer, admiral');
     log.red(JSON.stringify(e, null, 2));
@@ -56,6 +64,9 @@ const startTMDedicatedServer = () => {
   }
 };
 
+/**
+ * @param client {client} GBXRemote client
+ */
 const restartTMDedicatedServer = (client) => {
   client.query('StopServer').then(() => {
     startTMDedicatedServer();
