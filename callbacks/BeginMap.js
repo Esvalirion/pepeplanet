@@ -8,6 +8,8 @@ import log from '../utils/log.js';
 import generateUI from '../UI/generateUI.js';
 import mapdb from '../db/maps.js';
 
+import raceTime from '../utils/raceTime.js';
+
 /**
  * Author Esvalirion (https://github.com/Esvalirion)
  */
@@ -17,10 +19,17 @@ const BeginMap = async (_, client) => {
     const map = await client.query('GetCurrentMapInfo', []);
 
     Object.keys(pepeplanet.players).forEach((key) => {
+      pepeplanet.players[key].wayPoints = [];
+      pepeplanet.players[key].recordData = null;
+    });
+
+    log.white('end map, players pool cleared');
+
+    Object.keys(pepeplanet.players).forEach((key) => {
       generateUI(key, client);
     });
 
-    server.log(`$0f0${map.Name}$g by $0f0${map.Author}$g, at is $0f0${map.AuthorTime}, try to beat, pepegas`);
+    server.log(`$0f0${map.Name}$g, author time is $0f0${raceTime(map.AuthorTime)}, try to beat, pepegas`);
 
     const isMapExist = await mapdb.existsMap(map.UId);
 

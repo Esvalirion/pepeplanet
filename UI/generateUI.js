@@ -9,11 +9,11 @@ const generateUI = async (login, client) => {
   const childs = await Promise.all(templates.map(async (tmpl) => {
     let { template, loop } = tmpl;
     if (typeof tmpl.template === 'function') {
-      template = await tmpl.template(client);
+      template = await tmpl.template(client, login);
     }
 
     if (typeof tmpl.loop === 'function') {
-      loop = await tmpl.loop(client);
+      loop = await tmpl.loop(client, login);
     }
 
     return {

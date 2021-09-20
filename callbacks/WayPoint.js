@@ -5,6 +5,8 @@ import raceTime from '../utils/raceTime.js';
 import recorddb from '../db/records.js';
 import checkpointdb from '../db/checkpoints.js';
 
+import generateUI from '../UI/generateUI.js';
+
 import pepeplanet from '../pepeplanet.js';
 
 /**
@@ -34,7 +36,7 @@ const setData = async (params, client) => {
 
   return {
     record: record?.time ?? 0,
-    cps,
+    cps: cps.length ? cps : [],
     UId,
   };
 };
@@ -69,7 +71,10 @@ const WayPoint = async (params, client) => {
         login,
         cp: checkpointinrace,
         time: racetime,
+        oldTime,
       });
+
+      generateUI(login, client);
 
       // pepega new time
       if (oldTime && racetime > oldTime) {
@@ -112,6 +117,8 @@ const WayPoint = async (params, client) => {
 
     players[login].wayPoints = [];
     players[login].recordData = null;
+
+    generateUI(login, client);
   } catch (err) {
     log.red('Something went wrong in WayPoint');
     log.red(err);

@@ -36,7 +36,7 @@ export default {
   TunnelDataReceived,
   VoteUpdated,
   WayPoint,
-  event: {
+  Event: {
     // 'Trackmania.Event'
     WayPoint,
     GiveUp,

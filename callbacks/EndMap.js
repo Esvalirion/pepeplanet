@@ -6,13 +6,7 @@ import log from '../utils/log.js';
  */
 
 const EndMap = async (_, client) => {
-  Object.keys(pepeplanet.players).forEach((key) => {
-    pepeplanet.players[key].wayPoints = [];
-    pepeplanet.players[key].recordData = [];
-  });
 
-  log.white('end map, players pool cleared');
-  client.query('SendHideManialinkPage', []);
-};
+  log.white('map ended');
 
-export default EndMap;
+  export default EndMap;

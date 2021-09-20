@@ -1,5 +1,6 @@
 import gbxremote from 'gbxremote';
 import _ from 'lodash';
+
 import config from './config.js';
 
 import log from './utils/log.js';
@@ -24,6 +25,7 @@ const pepeplanet = {
 
     this.players[login] = {
       nickName,
+      wayPoints: []
     };
   },
 
@@ -59,7 +61,7 @@ const pepeplanet = {
 
       if (method.split('.')[1] === 'ModeScriptCallbackArray') {
         if (params[0].split('.')[1] === 'Event') {
-          callbackFn = _.get(callbacksList, params[0].split('.')[2]);
+          callbackFn = callbacksList.Event[params[0].split('.')[2]];
         } else {
           callbackFn = _.get(callbacksList, params[0].split('.')[1]);
         }
@@ -141,6 +143,9 @@ const pepeplanet = {
     client.on('error', (err) => {
       log.red('Could not connect to server');
       log.red(err);
+
+      // TODO: add restart tmserver
+
       process.exit(1);
     });
 
