@@ -4,16 +4,16 @@ import log from '../utils/log.js';
 
 /**
  * Author il12 (https://github.com/il12)
- * @param login {string} Player login
+ * @param id {string} Player id
  */
-const getPlayer = async (login) => {
+const getPlayer = async (id) => {
   const sql = `
                 SELECT * FROM players
-                WHERE login = ?
+                WHERE id = ?
                 LIMIT 1
             `;
 
-  const preparedSql = mysql.format(sql, [login]);
+  const preparedSql = mysql.format(sql, [id]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in getPlayer, captain!');
@@ -25,21 +25,22 @@ const getPlayer = async (login) => {
 };
 
 /**
- * @param login {string} Player login
+ * @param id {string} Player id
  * @param name {string} Player name
  * @param ip {string} Player ip
  */
-const upsertPlayer = async (login, name, ip) => {
+const upsertPlayer = async (id, name, ip) => {
   const sql = `
-            INSERT INTO players (login, name, ip)
+            INSERT INTO players (id, name, ip)
             VALUES(?, ?, ?)
             ON DUPLICATE KEY UPDATE
-                login = ?,
+                id = ?,
                 name = ?,
-                ip = ?
+                ip = ?,
+                lastVisit = NOW()
             `;
 
-  const preparedSql = mysql.format(sql, [login, name, ip, login, name, ip]);
+  const preparedSql = mysql.format(sql, [id, name, ip, id, name, ip]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in upsertPlayer, captain!');
@@ -72,15 +73,15 @@ const existPlayer = async (login) => {
 };
 
 /**
- * @param login Player login
+ * @param id Player id
  */
-const removePlayer = async (login) => {
+const removePlayer = async (id) => {
   const sql = `
             DELETE FROM players
-                WHERE login = ?;
+                WHERE id = ?;
             `;
 
-  const preparedSql = mysql.format(sql, [login]);
+  const preparedSql = mysql.format(sql, [id]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in removePlayer, captain!');

@@ -6,20 +6,20 @@ import log from '../utils/log.js';
 /**
  * Author il12 (https://github.com/il12)
  * @param map {string} Map UID
- * @param login {string} Player login
+ * @param id {string} Player id
  */
 
-const getRecord = async (map, login) => {
+const getRecord = async (map, id) => {
   const sql = `
                 SELECT * FROM records
                 WHERE
-                    login = ? AND
+                    id = ? AND
                     uid = ?
                 ORDER BY time
                 LIMIT 1
             `;
 
-  const preparedSql = mysql.format(sql, [login, map]);
+  const preparedSql = mysql.format(sql, [id, map]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in getRecord, captain!');
@@ -55,18 +55,18 @@ const getRecordListOnMap = async (map) => {
 /**
  * @param record {object} Local Record Info object
  * @param record.map {string} Map UID
- * @param record.login {string} Player login
+ * @param record.id {string} Player id
  */
 const getRecordRank = async (record) => {
   const sql = `
                 SELECT ROW_NUMBER() OVER(ORDER BY time ASC) AS rank FROM records
                 WHERE
                     uid = ? AND
-                    login = ?
+                    id = ?
                 LIMIT 1;
             `;
 
-  const preparedSql = mysql.format(sql, [record.map, record.login]);
+  const preparedSql = mysql.format(sql, [record.map, record.id]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in getRecordRank, captain!');
@@ -80,18 +80,21 @@ const getRecordRank = async (record) => {
 /**
  * @param record {object} Record object
  * @param record.map {string} Map UID
- * @param record.login {string} Player login
+ * @param record.id {string} Player id
  * @param record.time {number} Record time
  */
 const upsertRecord = async (record) => {
   const sql = `
-            INSERT INTO records (uid, login, time)
+            INSERT INTO records (uid, id, time)
             VALUES(?, ?, ?)
             ON DUPLICATE KEY UPDATE
-                time = ?
+                time = IF(time > ?, time, ?)
             `;
 
-  const preparedSql = mysql.format(sql, [record.map, record.login, record.time, record.time]);
+  const preparedSql = mysql.format(
+    sql,
+    [record.map, record.id, record.time, record.time, record.time],
+  );
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in upsertRecord, captain!');
