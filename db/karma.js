@@ -4,11 +4,11 @@ import log from '../utils/log.js';
 
 /**
  * Author il12 (https://github.com/il12)\\
- * @param login {string} Player login
+ * @param id {string} Player id
  * @param uid {string} Map uid
  * @param vote {number} Player vote
  */
-const upsertKarma = async (login, uid, vote) => {
+const upsertKarma = async (id, uid, vote) => {
   const sql = `
             INSERT INTO karma (login, uid, vote)
             VALUES(?, ?, ?)
@@ -16,7 +16,7 @@ const upsertKarma = async (login, uid, vote) => {
                 vote = ?
             `;
 
-  const preparedSql = mysql.format(sql, [login, uid, vote, vote]);
+  const preparedSql = mysql.format(sql, [id, uid, vote, vote]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in upsertKarma, captain!');

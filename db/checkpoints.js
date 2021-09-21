@@ -6,21 +6,21 @@ import log from '../utils/log.js';
 /**
  * Author il12 (https://github.com/il12)
  * @param map {string} Map UID
- * @param login {string} Player login
+ * @param id {string} Player id
  * @param cp {number} Checkpoint number
  */
 
-const getCheckpoint = async (map, login, cp) => {
+const getCheckpoint = async (map, id, cp) => {
   const sql = `
                 SELECT * FROM checkpoints
                 WHERE
-                    login = ? AND
+                    id = ? AND
                     uid = ? AND
                     cpNumber = ?
                 LIMIT 1
             `;
 
-  const preparedSql = mysql.format(sql, [login, map, cp]);
+  const preparedSql = mysql.format(sql, [id, map, cp]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in getRecord, captain!');
@@ -33,18 +33,18 @@ const getCheckpoint = async (map, login, cp) => {
 
 /**
  * @param map {string} Map UID
- * @param login {string} Player login
+ * @param id {string} Player id
  */
-const getListOfPersonalBestCheckpointsOnMap = async (map, login) => {
+const getListOfPersonalBestCheckpointsOnMap = async (map, id) => {
   const sql = `
                 SELECT time, cpNumber FROM checkpoints
                 WHERE
                     uid = ? AND
-                    login = ?
+                    id = ?
                 ORDER BY cpNumber
             `;
 
-  const preparedSql = mysql.format(sql, [map, login]);
+  const preparedSql = mysql.format(sql, [map, id]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in preparedSql, captain!');
@@ -60,7 +60,7 @@ const getListOfPersonalBestCheckpointsOnMap = async (map, login) => {
  */
 const getListOfBestCheckpointsOnMap = async (map) => {
   const sql = `
-                SELECT name, MIN(time), cpNumber FROM checkpoints
+                SELECT id, MIN(time), cpNumber FROM checkpoints
                 WHERE
                     uid = ?
                 GROUP BY cpNumber
@@ -81,20 +81,20 @@ const getListOfBestCheckpointsOnMap = async (map) => {
 /**
  * @param record {object} Record object
  * @param record.map {string} Map UID
- * @param record.login {string} Player login
+ * @param record.id {string} Player id
  * @param record.cp {number} Checkpoint number
  * @param record.time {number} Record time
 
  */
 const upsertCheckpoint = async (record) => {
   const sql = `
-            INSERT INTO checkpoints (uid, login, cpNumber, time)
+            INSERT INTO checkpoints (uid, id, cpNumber, time)
             VALUES(?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE
-                time = ?
+                time = IF(time > ?, time, ?)
             `;
 
-  const preparedSql = mysql.format(sql, [...Object.values(record), record.time]);
+  const preparedSql = mysql.format(sql, [...Object.values(record), record.time, record.time]);
   const res = await pool.query(preparedSql).catch((e) => {
     log.red('MySQL database error, captain!');
     log.red('Something wrong in upsertCheckpoint, captain!');
