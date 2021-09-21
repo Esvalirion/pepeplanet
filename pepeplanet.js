@@ -25,7 +25,7 @@ const pepeplanet = {
 
     this.players[login] = {
       nickName,
-      wayPoints: []
+      wayPoints: [],
     };
   },
 
