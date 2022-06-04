@@ -1,10 +1,11 @@
-import gbxremote from 'gbxremote';
+import { GbxClient } from '@evotm/gbxclient';
 import _ from 'lodash';
 import config from './config.js';
 
 import log from './utils/log.js';
 import server from './utils/server.js';
 import runningMessage from './utils/runningMessage.js';
+import TMServer from './utils/TMServer.js';
 import callbacksList from './callbacks/index.js';
 import generateUI from './UI/generateUI.js';
 
@@ -133,22 +134,38 @@ const pepeplanet = {
     this.enableCallbacks(client);
   },
 
-  connect() {
-    const client = gbxremote.createClient(config.trackmania.port, config.trackmania.host);
+  async connect() {
+    const client = new GbxClient();
+    try {
+      await db.mysqlCheckAndDeployTables();
+      const connection = await client.connect(config.trackmania.host, config.trackmania.port);
 
-    db.mysqlCheckAndDeployTables();
+      connection.on('error', (err) => {
+        log.red('Could not connect to server');
+        log.red(err);
+      });
 
-    client.on('error', (err) => {
-      log.red('Could not connect to server');
-      log.red(err);
-      process.exit(1);
-    });
-
-    log.green('Connected ...');
-    client.on('connect', () => this.authenticate(client));
+      log.green('Connecting...');
+      connection.on('connect', () => {
+        log.white(this);
+        this.authenticate(client);
+      });
+    } catch (e) {
+      log.red(e);
+      setTimeout(pepeplanet.connect, 5000);
+    }
   },
 };
 
-pepeplanet.connect();
+process.on('unhandledRejection', (reason, promise) => {
+  log.yellow('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+try {
+  TMServer.startTMDedicatedServer();
+  await pepeplanet.connect();
+} catch (e) {
+  log.yellow(e);
+}
 
 export default pepeplanet;

@@ -44,10 +44,10 @@ const WayPoint = async (params, client) => {
     login,
     checkpointinrace,
     isendrace,
-    racetime
+    racetime,
   } = params;
 
-  const players = pepeplanet.players;
+  const { players } = pepeplanet;
 
   try {
     if (!players[login].recordData) {
@@ -57,7 +57,7 @@ const WayPoint = async (params, client) => {
     const {
       recordData,
       wayPoints,
-      nickName
+      nickName,
     } = players[login];
 
     // TODO: for laps

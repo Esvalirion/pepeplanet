@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
-import pool from './pool';
-import log from '../utils/log';
+import pool from './pool.js';
+import log from '../utils/log.js';
 
 /**
  * Author il12 (https://github.com/il12)

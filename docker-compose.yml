@@ -1,0 +1,22 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  controller:
+    build:
+      context: ./controller
+      dockerfile: Dockerfile
+    ports:
+      - "8000:5000"
+    links:
+      - trackmania
+
+  trackmania:
+    image: evotm/trackmania:latest
+    ports:
+      - "2350:2350/udp"
+      - "2350:2350/tcp"
+    environment:
+      MASTER_LOGIN: "iskopaemoe_test_server"
+      MASTER_PASSWORD: "K_|y\\0yR)Pi[rJP&"
+
+  redis:
+    image: redis

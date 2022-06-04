@@ -8,6 +8,8 @@ const config = {
   trackmania: {
     // server port on localhost, don't use 5000 please
     port: 5555,
+    // don't use "localhost" due to automatic translation to ipv6
+    host: '127.0.0.1',
 
     // Authentication details for SuperAdmin
     login: 'SuperAdmin',
@@ -19,7 +21,7 @@ const config = {
 
   // MySQL database settings
   mySql: {
-    host: 'localhost',
+    host: '127.0.0.1',
     port: 3306,
     user: 'pepega',
     password: 'password',
